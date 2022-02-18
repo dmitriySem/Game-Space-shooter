@@ -1,8 +1,8 @@
-package com.mygdx.game.desktop;
+package com.mygdx.screen.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.mygdx.game.StarGame;
+import ru.gb.StarGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
