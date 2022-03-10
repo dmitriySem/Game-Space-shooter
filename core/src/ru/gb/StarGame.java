@@ -10,6 +10,4 @@ public class StarGame extends Game {
 	public void create () {
 		setScreen(new MenuScreen());
 	}
-
-
 }

@@ -8,17 +8,20 @@ import ru.gb.base.BaseScreen;
 
 public class MenuScreen extends BaseScreen {
 
+    private static final float V_LEN = 0.5f;
+
     private Texture img;
     private Vector2 pos;
-    private Vector2 v;
+    private Vector2 velocity;
+    private Vector2 touch;
 
     @Override
     public void show () {
-
         super.show();
         img = new Texture("badlogic.jpg");
         pos = new Vector2();
-        v = new Vector2(1, 1);
+        velocity = new Vector2();
+        touch = new Vector2();
     }
 
     @Override
@@ -27,8 +30,11 @@ public class MenuScreen extends BaseScreen {
         batch.begin();
         batch.draw(img, pos.x, pos.y);
         batch.end();
-        pos.add(v);
-
+        if (touch.dst(pos) > V_LEN) {
+            pos.add(velocity);
+        } else {
+            pos.set(touch);
+        }
     }
 
     @Override
@@ -39,13 +45,14 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        pos.set(screenX, Gdx.graphics.getHeight() - screenY);
-        return super.touchDown(screenX, screenY, pointer, button);
+        touch.set(screenX, Gdx.graphics.getHeight() - screenY);
+        velocity.set(touch.cpy().sub(pos)).nor();
+        return false;
     }
 
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        pos.set(screenX, Gdx.graphics.getHeight() - screenY);
-        return super.touchDragged(screenX, screenY, pointer);
-    }
+//    @Override
+//    public boolean touchDragged(int screenX, int screenY, int pointer) {
+//        pos.set(screenX, Gdx.graphics.getHeight() - screenY);
+//        return super.touchDragged(screenX, screenY, pointer);
+//   }
 }
