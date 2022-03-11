@@ -5,47 +5,47 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.gb.base.BaseScreen;
+import ru.gb.math.Rect;
+import ru.gb.sprite.Background;
 
 public class MenuScreen extends BaseScreen {
 
-    private Texture img;
+    private Texture bg;
     private Vector2 pos;
-    private Vector2 v;
+
+    private Background background;
 
     @Override
     public void show () {
 
         super.show();
-        img = new Texture("badlogic.jpg");
+        bg = new Texture("textures/bg.png");
+        background = new Background(bg);
         pos = new Vector2();
-        v = new Vector2(1, 1);
+
+    }
+
+    @Override
+    public void resize(Rect worldBounds) {
+        background.resize(worldBounds);
     }
 
     @Override
     public void render (float delta) {
         super.render(delta);
         batch.begin();
-        batch.draw(img, pos.x, pos.y);
+        background.draw(batch);
         batch.end();
-        pos.add(v);
-
     }
 
     @Override
     public void dispose () {
         super.dispose();
-        img.dispose();
+        bg.dispose();
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        pos.set(screenX, Gdx.graphics.getHeight() - screenY);
-        return super.touchDown(screenX, screenY, pointer, button);
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        pos.set(screenX, Gdx.graphics.getHeight() - screenY);
-        return super.touchDragged(screenX, screenY, pointer);
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        return super.touchDown(touch, pointer, button);
     }
 }
