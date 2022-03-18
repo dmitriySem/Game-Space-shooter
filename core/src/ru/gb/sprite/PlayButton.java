@@ -16,8 +16,6 @@ public class PlayButton extends BaseButton {
     private final Game game;
 
 
-
-
     public PlayButton(TextureAtlas atlas, Game game) {
         super(atlas.findRegion("btPlay"));
         this.game = game;

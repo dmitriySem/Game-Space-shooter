@@ -105,12 +105,14 @@ public class BaseScreen implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println("touchDown screenX = " + screenX + " screenY = " + screenY);
         touch.set(screenX,Gdx.graphics.getHeight() - screenY).mul(screenToWorld);
+        System.out.println("pointer = " + pointer);
         touchDown(touch, pointer, button);
         return false;
     }
 
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         System.out.println("touchDown touchX = " + touch.x + " touchY = " + touch.y);
+        System.out.println("pointer = " + pointer);
         return false;
     }
 
@@ -123,6 +125,7 @@ public class BaseScreen implements Screen, InputProcessor {
 
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         System.out.println("touchUp touchX = " + touch.x + " touchY = " + touch.y);
+        System.out.println("pointer = " + pointer);
         return false;
     }
 

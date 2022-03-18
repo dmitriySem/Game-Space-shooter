@@ -10,8 +10,8 @@ import ru.gb.base.BaseScreen;
 import ru.gb.math.Rect;
 import ru.gb.sprite.Background;
 import ru.gb.sprite.ExitButton;
-import ru.gb.sprite.Logo;
 import ru.gb.sprite.PlayButton;
+import ru.gb.sprite.Ship;
 import ru.gb.sprite.Star;
 
 public class MenuScreen extends BaseScreen {
@@ -23,10 +23,13 @@ public class MenuScreen extends BaseScreen {
     private Texture bg;
     private Background background;
 
+
+
     private TextureAtlas atlas;
     private Star[] stars;
     private ExitButton exitButton;
     private PlayButton playButton;
+
 
     public MenuScreen(Game game) {
         this.game = game;
