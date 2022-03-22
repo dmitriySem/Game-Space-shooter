@@ -14,12 +14,12 @@ public class Bullet extends Sprite {
     private Vector2 v;
     private int damage;
     private Sprite owner;
-    private Sound sound;
+
 
     public Bullet() {
         regions = new TextureRegion[1];
         v = new Vector2();
-        sound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
+
     }
 
     public void set( Sprite owner,
@@ -57,7 +57,4 @@ public class Bullet extends Sprite {
         return owner;
     }
 
-    public void playSound(){
-        sound.play(0.02f);
-    }
 }

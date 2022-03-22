@@ -1,5 +1,8 @@
 package ru.gb.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -7,9 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import ru.gb.base.BaseScreen;
 import ru.gb.math.Rect;
 import ru.gb.pool.BulletPool;
+import ru.gb.pool.EnumyPool;
 import ru.gb.sprite.Background;
 import ru.gb.sprite.MainShip;
 import ru.gb.sprite.Star;
+import ru.gb.utils.EnemyEmitter;
 
 public class GameScreen extends BaseScreen {
 
@@ -22,7 +27,14 @@ public class GameScreen extends BaseScreen {
 
     private Star[] stars;
     private BulletPool bulletPool;
+    private EnumyPool enumyPool;
     private MainShip mainShip;
+
+    private EnemyEmitter enemyEmitter;
+
+    private Music music;
+    private Sound laserSound;
+    private Sound bulletSound;
 
     @Override
     public void show() {
@@ -30,13 +42,25 @@ public class GameScreen extends BaseScreen {
         bg = new Texture("textures/bg.png");
         background = new Background(bg);
 
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
+        laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
+
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
         stars = new Star[STAR_COUNT];
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
         bulletPool = new BulletPool();
-        mainShip = new MainShip(atlas, bulletPool);
+        enumyPool = new EnumyPool(worldBounds, bulletPool);
+
+        mainShip = new MainShip(atlas, bulletPool, bulletSound);
+        enemyEmitter = new EnemyEmitter(worldBounds,laserSound, enumyPool, atlas);
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
+        music.setVolume(0.2f);
+        music.setLooping(true);
+        music.play();
+
     }
 
     @Override
@@ -44,6 +68,7 @@ public class GameScreen extends BaseScreen {
         super.render(delta);
         update(delta);
         freeAllDestroyed();
+        enemyEmitter.generate(delta);
         draw();
     }
 
@@ -63,6 +88,8 @@ public class GameScreen extends BaseScreen {
         bg.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        enumyPool.dispose();
+        music.dispose();
     }
 
     @Override
@@ -95,10 +122,12 @@ public class GameScreen extends BaseScreen {
         }
         mainShip.update(delta);
         bulletPool.updateActiveSprites(delta);
+        enumyPool.updateActiveSprites(delta);
     }
 
     private void freeAllDestroyed() {
         bulletPool.freeAllDestroyedActiveSprites();
+        enumyPool.freeAllDestroyedActiveSprites();
     }
 
     private void draw() {
@@ -109,6 +138,7 @@ public class GameScreen extends BaseScreen {
         }
         mainShip.draw(batch);
         bulletPool.drawActiveSprites(batch);
+        enumyPool.drawActiveSprites(batch);
         batch.end();
     }
 }
