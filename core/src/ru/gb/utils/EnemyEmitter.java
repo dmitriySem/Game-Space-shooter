@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.gb.math.Rect;
 import ru.gb.math.Rnd;
-import ru.gb.pool.EnumyPool;
+import ru.gb.pool.EnemyPool;
 import ru.gb.sprite.EnemyShip;
 
 public class EnemyEmitter {
@@ -51,10 +51,10 @@ public class EnemyEmitter {
     private final Vector2 enemyBigBulletV = new Vector2(0, -0.3f);
 
     private TextureRegion bulletRegion;
-    private final EnumyPool enemyPool;
+    private final EnemyPool enemyPool;
     private float generateTimer;
 
-    public EnemyEmitter(Rect worldBounds, Sound bulletSound, EnumyPool enemyPool, TextureAtlas atlas) {
+    public EnemyEmitter(Rect worldBounds, Sound bulletSound, EnemyPool enemyPool, TextureAtlas atlas) {
         this.worldBounds = worldBounds;
         this.bulletSound = bulletSound;
         this.enemyPool = enemyPool;
@@ -112,10 +112,10 @@ public class EnemyEmitter {
                 );
             }
 
-            enemy.pos.x = Rnd.nextFloat(
+            float posX = Rnd.nextFloat(
                     worldBounds.getLeft() + enemy.getHalfWidth(),
                     worldBounds.getRight() - enemy.getHalfWidth());
-            enemy.setBottom(worldBounds.getTop());
+            enemy.setPosition(posX, worldBounds.getTop());
 
         }
 
