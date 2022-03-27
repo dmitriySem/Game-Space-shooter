@@ -53,6 +53,7 @@ public class EnemyEmitter {
     private TextureRegion bulletRegion;
     private final EnemyPool enemyPool;
     private float generateTimer;
+    private int level;
 
     public EnemyEmitter(Rect worldBounds, Sound bulletSound, EnemyPool enemyPool, TextureAtlas atlas) {
         this.worldBounds = worldBounds;
@@ -64,8 +65,9 @@ public class EnemyEmitter {
         enemyBigRegions = Regions.split(atlas.findRegion("enemy2"), 1, 2, 2);
     }
 
-    public void generate(float delta){
+    public void generate(float delta, int frag){
 
+        level = frag / 10 + 1;
         generateTimer += delta;
         if (generateTimer >= GENERATE_INTERVAL) {
             generateTimer = 0f;
@@ -78,7 +80,7 @@ public class EnemyEmitter {
                         bulletRegion,
                         enemySmallBulletV,
                         ENEMY_SMALL_BULLET_HEIGHT,
-                        ENEMY_SMALL_BULLET_DAMEGE,
+                        ENEMY_SMALL_BULLET_DAMEGE * level,
                         bulletSound,
                         ENEMY_SMALL_RELOAD_INTERVAL,
                         ENEMY_SMALL_HEIGHT,
@@ -91,7 +93,7 @@ public class EnemyEmitter {
                         bulletRegion,
                         enemyMediumBulletV,
                         ENEMY_MEDIUM_BULLET_HEIGHT,
-                        ENEMY_MEDIUM_BULLET_DAMEGE,
+                        ENEMY_MEDIUM_BULLET_DAMEGE * level,
                         bulletSound,
                         ENEMY_MEDIUM_RELOAD_INTERVAL,
                         ENEMY_MEDIUM_HEIGHT,
@@ -104,7 +106,7 @@ public class EnemyEmitter {
                         bulletRegion,
                         enemyBigBulletV,
                         ENEMY_BIG_BULLET_HEIGHT,
-                        ENEMY_BIG_BULLET_DAMEGE,
+                        ENEMY_BIG_BULLET_DAMEGE * level,
                         bulletSound,
                         ENEMY_BIG_RELOAD_INTERVAL,
                         ENEMY_BIG_HEIGHT,
@@ -118,7 +120,9 @@ public class EnemyEmitter {
             enemy.setPosition(posX, worldBounds.getTop());
 
         }
-
     }
 
+    public int getLevel() {
+        return level;
+    }
 }
